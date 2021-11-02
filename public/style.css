@@ -1,7 +1,103 @@
-body{
-  padding-top:80px;
-  word-wrap:break-word;
+*{
+  font-family: Arial, Helvetica, sans-serif;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-img{
-  height: 400px;
+.grey{
+  color: white;
+}
+#orderN{
+  margin-left: 46%;
+}
+#login{
+  color: white;
+  text-decoration: none;
+  float: right;
+  position: relative;
+  bottom:  50px;
+}
+input{
+  color: black;
+}
+
+button{
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background:peru;
+  color: #FFF;
+  border-radius: 50%;
+  }
+
+  .rest{
+    min-height: 900px;
+    background-image: url("http://urbusinessnetwork.com/wp-content/uploads/2019/09/Coffeeshop-Tips-Cover.jpg");
+  }
+  .profwhite{
+    background-color: rgba(191,191,191,0.75);
+    color: white;
+    padding: 100px;
+  }
+  header>a{
+    text-decoration: none;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background:peru;
+  color: #FFF;
+  border-radius: 50%;
+  float: right;
+  }
+  #firstbutton{
+    margin-left: 30%;
+    }
+ span>a{
+    text-decoration: none;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background:peru;
+    color: #FFF;
+    border-radius: 50%;
+    float: right;
+  }
+  .photo{
+        background-image: url("http://urbusinessnetwork.com/wp-content/uploads/2019/09/Coffeeshop-Tips-Cover.jpg");
+  }
+  input{
+    border-radius: 5px;
+  }
+
+  label{
+    margin-left: 42%;
+  }
+
+ 
+
+header{
+  z-index: -1;
+  box-sizing: border-box;
+  padding: 20px 40px;
+background-color:#292c2f;
+height: 80px;
+top:-100px;
+color: #ffffff;
+}
+.loginlabel{
+  color: white;
+}
+.header-content{
+margin: 0 auto;
+max-width: 1200px;
+padding: 10px 20px;
+height: 50px;
+width: 100%;
+
+}
+.header-content>h1{
+text-align: left;
+margin-top: 0;
+}
+h2{
+  margin-top: 0;
+  padding-top: 70px;
+  margin-left: 45%;
 }

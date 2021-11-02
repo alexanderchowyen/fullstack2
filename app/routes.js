@@ -1,19 +1,24 @@
-module.exports = function(app, passport, db) {
+module.exports = function(app, passport, db, ObjectId) {
 
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
-        res.render('index.ejs');
+        res.render('index.ejs', {outcome: null})
     });
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('messages').find().toArray((err, result) => {
-          if (err) return console.log(err)
-          res.render('profile.ejs', {
+    
+        db.collection('order').find().toArray((err, result) => {
+            if (err) return console.log(err)
+            let orders = result.filter(h => h.completed === false)
+            let completedOrders = result.filter(h => h.completed === true)
+
+            res.render('profile.ejs', {
             user : req.user,
-            messages: result
+            orders: orders,
+            completed: completedOrders,
           })
         })
     });
@@ -24,38 +29,44 @@ module.exports = function(app, passport, db) {
         res.redirect('/');
     });
 
-// message board routes ===============================================================
+// roulette game route ===============================================================
 
-    app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+    app.post('/', (req, res) => {
+      db.collection('order').save({name: req.body.name, order: req.body.drink, completed: false, barista: ''}, (err, savedResult) => {
         if (err) return console.log(err)
         console.log('saved to database')
-        res.redirect('/profile')
+        res.render('index.ejs')
       })
     })
 
-    app.put('/messages', (req, res) => {
-      db.collection('messages')
-      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-        $set: {
-          thumbUp:req.body.thumbUp + 1
-        }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
+    app.put('/messages/like', (req, res) => {
+        db.collection('order')
+        .findOneAndUpdate({
+            _id: ObjectId(req.body.id)
+          }, {
+            $set: {
+              completed: true,
+              barista: req.body.barista
+            },
+        
+          }, {
+            sort: { _id: -1 },
+            upsert: true
+          }, (err, result) => {
+            if (err) return res.send(err)
+            res.send(result)
+          })
       })
-    })
 
-    app.delete('/messages', (req, res) => {
-      db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
-        if (err) return res.send(500, err)
-        res.send('Message deleted!')
+      app.delete('/messages', (req, res) => {
+        db.collection('order').findOneAndDelete({
+          _id: ObjectId(req.body.id)
+        }, (err, result) => {
+          if (err) return res.send(500, err)
+          res.send('Message deleted!')
+        })
       })
-    })
-
+    
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================

@@ -11,22 +11,33 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 
 var morgan       = require('morgan');
+//logs everything that happens on your server
 var cookieParser = require('cookie-parser');
+//look at the cookies we store on comp keep track of who's logged in
 var bodyParser   = require('body-parser');
+//we can see what's inside a request
 var session      = require('express-session');
+//keeps an open session/ users logged in
 
 var configDB = require('./config/database.js');
+//url for database, file is an object
+
+
+const ObjectId = require('mongodb').ObjectID
 
 var db
+
 
 // configuration ===============================================================
 mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
   db = database
-  require('./app/routes.js')(app, passport, db);
+  require('./app/routes.js')(app, passport, db, ObjectId);
 }); // connect to our database
 
+
 require('./config/passport')(passport); // pass passport for configuration
+//calling a function
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
